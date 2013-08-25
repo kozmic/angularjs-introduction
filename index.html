@@ -79,7 +79,7 @@
             border: #000 solid medium;
         }
         div.syntaxhighlighter {
-            margin: 0 !important;
+            /*margin: 0 !important;*/
         }
 
 	</style>
@@ -112,11 +112,11 @@
         <div>
             <h2>Binding</h2>
             <p>
-                Basic application with two way binding
+                Basic application with two way data binding
             </p>
 
-            <pre class="brush: html" title="HTML">
-                &lt;script src="js/angular.min.js">&lt;/script>
+            <pre class="brush: html">
+                &lt;script src="js/angular.js">&lt;/script>
                 &lt;div ng-app>
                     Best team: &lt;input ng-model=”team.name”>
                     &lt;h2>Best team is {{team.name}}&lt;/h2>
@@ -133,6 +133,11 @@
             <p>
                 anuglar.js and ng-app removed in examples for brevity.
             </p>
+            <pre class="brush: html">
+                &lt;script src="js/angular.js">&lt;/script>
+                &lt;div ng-app>
+                &lt;/div>
+            </pre>
         </div>
     </section>
 
@@ -163,7 +168,7 @@
                 Sets class to "ng-invalid" and "ng-invalid-required".
             </p>
 
-            <pre class="brush: html" title="HTML">
+            <pre class="brush: html">
               Best team: &lt;input required ng-model="team.name">
               &lt;p ng-show="team.name">
                 The best team is {{team.name}}
@@ -194,7 +199,32 @@
         </div>
     </section>
 
+    <section class="slide">
+        <div>
+            <h2>Controller</h2>
+            <p>Glue between services, model and template</p>
+        </div>
+    </section>
+
     <!-- OLD SLIDES -->
+
+    <section class="slide">
+        <div>
+            <h2>$provide.decorator</h2>
+            <p>Nice to modify third party code/modules.</p>
+            <pre class="brush: js">
+            app.config(function($provide) {
+                $provide.decorator('foo', function($delegate) {
+                    $delegate.greet = function() {
+                        return "greet() added to 'foo'";
+                    };
+
+                    return $delegate;
+                });
+            });
+            </pre>
+        </div>
+    </section>
 
     <section class="slide">
         <div>
@@ -969,7 +999,7 @@ weatherApp.config(function ($httpProvider) {
     <section class="slide">
         <div>
             <h2>End to end test karma config</h2>
-            <p><code>karma start weather-e2e.conf.js></code></p>
+            <p><code>karma start weather-e2e.conf.js</code></p>
             <pre class="brush: js">
             files = [
                 ANGULAR_SCENARIO,
