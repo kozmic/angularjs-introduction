@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-submit required</title>
+    <script src="js/angular/angular.js"></script>
+    <script type="text/javascript">
+        var bekkApp = angular.module('bekkApp', []);
+
+        bekkApp.controller('TeamsCtrl', function($scope) {
+
+            $scope.teams = [];
+
+            $scope.addTeam = function(team) {
+                $scope.teams.push(team);
+                $scope.team = {};
+            }
+          });
+    </script>
+</head>
+<body>
+
+<div ng-app="bekkApp" ng-controller="TeamsCtrl">
+    <ul>
+       <li ng-repeat="team in teams">
+          {{team.name}}
+       </li>
+    </ul>
+
+    <form ng-submit="addTeam(team)" novalidate>
+       <input required ngMinlength="3" ng-model="team.name" />
+       <2 type="Add" />
+    </form>
+</div>
+
+</body>
+</html>

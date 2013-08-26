@@ -80,7 +80,10 @@
         }
         div.syntaxhighlighter {
             /*margin: 0 !important;*/
+            font-size: 0.8em !important;
         }
+        /*Reset Safari User Agent Styles*/
+        ul {-webkit-padding-start: 0px !important;}
 
 	</style>
 </head>
@@ -99,6 +102,18 @@
         <p>One version of the demo app: <a href="https://github.com/kozmic/angularjs-introduction-demo">https://github.com/kozmic/angularjs-introduction-demo</a></p>
 	</section>
 
+    <section class="slide">
+        <div>
+            <h2>It's a framework...</h2>
+            <ul>
+                <li>
+                    Components (directives) .. eller tag cloud?
+                </li>
+
+            </ul>
+        </div>
+    </section>
+
     <section class="slide cover">
         <img src="img/feelings_about_angularjs_over_time.png"/>
         <p class="source"><a href="http://www.bennadel.com/blog/2439-My-Experience-With-AngularJS-The-Super-heroic-JavaScript-MVW-Framework.htm">Source: Ben Nadel</a></p>
@@ -110,11 +125,15 @@
 
     <section class="slide">
         <div>
-            <h2>Binding</h2>
-            <p>
-                Basic application with two way data binding.<br />
-                Input value save in $scope.team.name.
-            </p>
+            <h2>Directives</h2>
+            <ul>
+                <li>
+                    ng-app: Boostraps app
+                </li>
+                <li>
+                    ng-model: Two way data binding
+                </li>
+            </ul>
 
             <pre class="brush: html">
                 &lt;script src="js/angular.js">&lt;/script>
@@ -127,6 +146,142 @@
             <iframe class="demo" src="demos/input.html" width="80%" height="20%"></iframe>
         </div>
     </section>
+
+    <section class="slide">
+        <div>
+            <h2>Filters</h2>
+            <ul>
+                <li>
+                    uppercase
+                </li>
+            </ul>
+
+            <pre class="brush: html">
+                &lt;div ng-app>
+                  Best team: &lt;input ng-model=”team.name”>
+                  &lt;h2>Best team is {{ team.name | uppercase }}&lt;/h2>
+                &lt;/div>
+            </pre>
+            <br />
+            <iframe class="demo" src="demos/filter-uppercase.html" width="80%" height="20%"></iframe>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div>
+            <h2>Filters</h2>
+            <ul>
+                <li>
+                    limitTo
+                </li>
+            </ul>
+
+            <pre class="brush: html">
+            &lt;div ng-app>
+              Best team: &lt;input ng-model=”team.name”>
+              &lt;h2>Best team is {{ team.name | uppercase | limitTo: 3 }}&lt;/h2>
+            &lt;/div>
+            </pre>
+            <br />
+            <iframe class="demo" src="demos/filter-limitto.html" width="80%" height="20%"></iframe>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div>
+            <!-- Vis $first, $even, $last i console -->
+            <h2>ng-controller</h2>
+            <pre class="brush: js" title="JS:">
+        var bekkApp = angular.module('bekkApp', []);
+
+        bekkApp.controller('TeamsCtrl', function($scope) {
+            $scope.teams = [
+                { name: 'Stabæk' },
+                { name: 'RBK' },
+                { name: 'Odd' }
+            ];
+          });
+            </pre>
+            <pre class="brush: html" title="HTML:">
+                &lt;div ng-app="bekkApp">
+                    &lt;ul ng-controller="TeamsCtrl">
+                        &lt;li ng-repeat="team in teams">
+                            {{team.name}}
+                        &lt;/li>
+                    &lt;/ul>
+                &lt;/div>
+            </pre>
+            <iframe class="demo" src="demos/controller.html" style="position: relative; top: -170px; left: 70%;"></iframe>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div>
+            <h2>ng-click</h2>
+            <pre class="brush: js" title="JS:">
+                bekkApp.controller('TeamsCtrl', function($scope) {
+                   $scope.teams = [];
+
+                   $scope.addTeam = function(team) {
+                      $scope.teams.push(team);
+                      $scope.team = {};
+                   }
+                }
+            </pre>
+            <pre class="brush: html" title="HTML:">
+                &lt;ul ng-controller="TeamsCtrl">
+                    &lt;li ng-repeat="team in teams">
+                       {{team.name}}
+                    &lt;/li>
+                    &lt;input ng-model="team.name" />
+                    &lt;button ng-click="addTeam(team)">Add&lt;/button>
+                &lt;/ul>
+            </pre>
+           <iframe class="demo" src="demos/controller-ng-click.html" style="position: relative; top: -170px; left: 80%; width: 27%"></iframe>
+        </div>
+    </section>
+
+   <section class="slide">
+      <div>
+         <h2>ng-submit</h2>
+            <pre class="brush: html" title="HTML:">
+                &lt;div ng-app="bekkApp" ng-controller="TeamsCtrl">
+                   &lt;ul>
+                      &lt;li ng-repeat="team in teams">
+                         {{team.name}}
+                      &lt;/li>
+                   &lt;/ul>
+                   &lt;form ng-submit="addTeam(team)">
+                      &lt;input ng-model="team.name" />
+                      &lt;button>Add&lt;/button>
+                   &lt;/form>
+                &lt;/div>
+            </pre>
+         <iframe class="demo" src="demos/controller-ng-submit.html"></iframe>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Validation</h2>
+         <p>required, ngRequired, ngMinlength, ngMaxlength, min, max, ngPattern</p>
+            <pre class="brush: html" title="HTML:">
+                &lt;div ng-app="bekkApp" ng-controller="TeamsCtrl">
+                   &lt;ul>
+                      &lt;li ng-repeat="team in teams">
+                         {{team.name}}
+                      &lt;/li>
+                   &lt;/ul>
+                   &lt;form ng-submit="addTeam(team)">
+                      &lt;input ng-model="team.name" />
+                      &lt;button>Add&lt;/button>
+                   &lt;/form>
+                &lt;/div>
+            </pre>
+         <iframe class="demo" src="demos/controller-ng-submit.html"></iframe>
+      </div>
+   </section>
+
 
     <section class="slide">
         <div>
