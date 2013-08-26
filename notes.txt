@@ -1,0 +1,19 @@
+ng-model
+ng-app="app"
+ng-controller og ng-model
+ng-repeat
+filter, orderBy, limitTo
+ng-click
+ng-form
+validation
+$resource
+factory med $resource i
+routes (kanskje skrive om så vi har dette fra starten, inkludert egne templates)
+http interceptor
+eventer (men egentlig ikke så ofte en trenger dette)
+testing
+prosjektstruktur uten global (kan bruke bower og required js)
+
+// sikkerhet med eksempel på #/user/1/delete
+
+TODO: Refaktorer TeamListCtrl TeamCtrl 
