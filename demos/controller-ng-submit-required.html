@@ -7,13 +7,19 @@
     <script type="text/javascript">
         var bekkApp = angular.module('bekkApp', []);
 
-        bekkApp.controller('TeamsCtrl', function($scope) {
+        bekkApp.controller('TeamsCtrl', function($scope, $log) {
 
             $scope.teams = [];
 
-            $scope.addTeam = function(team) {
-                $scope.teams.push(team);
-                $scope.team = {};
+            $scope.addTeam = function(form, team) {
+
+               if(form.$valid) {
+                  $scope.teams.push($scope.team);
+                  $scope.team = {};
+               } else {
+                  $log.info("Not valid.", form.$error);
+               }
+
             }
           });
     </script>
@@ -27,9 +33,9 @@
        </li>
     </ul>
 
-    <form ng-submit="addTeam(team)" novalidate>
-       <input required ngMinlength="3" ng-model="team.name" />
-       <2 type="Add" />
+    <form name="teamForm" ng-submit="addTeam(teamForm,team)" novalidate>
+       <input required ng-minlength="3" ng-model="team.name" />
+       <input type="submit" value="Add"/>
     </form>
 </div>
 
