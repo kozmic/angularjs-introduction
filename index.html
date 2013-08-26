@@ -112,7 +112,8 @@
         <div>
             <h2>Binding</h2>
             <p>
-                Basic application with two way data binding
+                Basic application with two way data binding.<br />
+                Input value save in $scope.team.name.
             </p>
 
             <pre class="brush: html">
@@ -143,7 +144,7 @@
 
     <section class="slide">
         <div>
-            <h2>ng-hide & ng-show</h2>
+            <h2>ng-hide &amp; ng-show</h2>
             <p>
                 hides / shows elements with css.
             </p>
@@ -159,10 +160,35 @@
             <iframe class="demo" src="demos/input-ng-hide.html" width="80%" height="20%"></iframe>
         </div>
     </section>
+    
+    <section class="slide">
+        <div>
+            <h2>Controller</h2>
+            <p>
+                Controller provides model and help functions to template.
+            </p>
+            
+            <pre class="brush: js" title="JS">
+            	angular.module('app').controller(function($scope, 'TeamService') {
+            		$scope.team = TeamService.get();
+            	});
+            </pre>
+
+            <pre class="brush: html" title="HTML">
+                &lt;p ng-controller="TeamCtrl">
+                  &lt;p ng-show="team.name">
+                   The best team is {{team.name}}
+                  &lt;/p>
+                &lt;/p>
+            </pre>
+            <br />
+            <iframe class="demo" src="demos/input-ng-hide.html" width="80%" height="20%"></iframe>
+        </div>
+    </section>
 
     <section class="slide">
         <div>
-            <h2>required & ng-required</h2>
+            <h2>required &amp; ng-required</h2>
             <p>
                 ng-required can toggle required based on model.<br />
                 Sets class to "ng-invalid" and "ng-invalid-required".
