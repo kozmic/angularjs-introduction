@@ -96,20 +96,25 @@
 	<section class="slide" id="First">
         <img src="img/AngularJS-large.png" class="center" alt="">
 		<h2>AngularJS Introduction</h2>
-		<p>Ståle Pettersen / <a href="https://twitter.com/kozmic">@kozmic</a></p>
+		<p>Ståle Pettersen (@kozmic)</p>
         <p>Aug 30th, 2013</p>
-        <p>Lates version of slides at: <a href="http://kozmic.github.com/angularjs-introduction/">http://kozmic.github.com/angularjs-introduction/</a></p>
-        <p>One version of the demo app: <a href="https://github.com/kozmic/angularjs-introduction-demo">https://github.com/kozmic/angularjs-introduction-demo</a></p>
+        <p>Slides: <a href="http://kozmic.github.com/angularjs-introduction/">kozmic.github.com/angularjs-introduction/</a></p>
+        <p>Demos: <a href="https://github.com/kozmic/angularjs-introduction-demo">github.com/kozmic/angularjs-introduction-demo</a></p>
 	</section>
 
     <section class="slide">
         <div>
             <h2>It's a framework...</h2>
             <ul>
-                <li>
-                    Components (directives) .. eller tag cloud?
-                </li>
-
+               <li>
+                  routing, templates, validation, testable, dependency injection, ajax ++
+               </li>
+               <li>
+                  reusable components (directives)
+               </li>
+               <li>
+                  "Spring Core &amp; Spring Web" for the Javascript world (complexity)
+               </li>
             </ul>
         </div>
     </section>
@@ -125,15 +130,7 @@
 
     <section class="slide">
         <div>
-            <h2>Directives</h2>
-            <ul>
-                <li>
-                    ng-app: Boostraps app
-                </li>
-                <li>
-                    ng-model: Two way data binding
-                </li>
-            </ul>
+            <h2>Hello world!</h2>
 
             <pre class="brush: html">
                 &lt;script src="js/angular.js">&lt;/script>
@@ -147,17 +144,37 @@
         </div>
     </section>
 
+   <section class="slide">
+      <div>
+         <h2>Directives</h2>
+         <ul>
+            <li>
+               ng-app: Boostraps app with <code>bekkApp</code> module.
+            </li>
+            <li>
+               ng-model: Two way data binding
+            </li>
+         </ul>
+         <pre class="brush: html">
+                &lt;script src="js/angular.js">&lt;/script>
+               &lt;script>
+                  var bekkApp = angular.module('bekkApp', []);
+               &lt;/script>
+                &lt;div ng-app="bekkApp">
+                    Best team: &lt;input ng-model=”team.name”>
+                    &lt;h2>Best team is {{ team.name }}&lt;/h2>
+                &lt;/div>
+            </pre>
+         <iframe class="demo" src="demos/input.html" width="80%" height="20%"></iframe>
+      </div>
+   </section>
+
     <section class="slide">
         <div>
-            <h2>Filters</h2>
-            <ul>
-                <li>
-                    uppercase
-                </li>
-            </ul>
+            <h2>Filter: uppercase</h2>
 
             <pre class="brush: html">
-                &lt;div ng-app>
+                &lt;div ng-app="bekkApp">
                   Best team: &lt;input ng-model=”team.name”>
                   &lt;h2>Best team is {{ team.name | uppercase }}&lt;/h2>
                 &lt;/div>
@@ -167,14 +184,28 @@
         </div>
     </section>
 
-    <section class="slide">
+   <section class="slide">
+      <div>
+         <h2>Filter: create your own</h2>
+
+         <pre class="brush: js" title="Defined your filter in bekkApp module:">
+            bekkApp.filter('capitalize', function() {
+                return function(input, scope) {
+                    return angular.isString(input) && input.length > 0 ? input.substring(0,1).toUpperCase()+input.substring(1) : input;
+                }
+            });
+         </pre>
+         <pre class="brush: html" title="Use it:">
+            &lt;h2>Best team is {{ team.name | capitalize }}&lt;/h2>
+         </pre>
+         <iframe class="demo" src="demos/filter-capitalize.html" width="80%" height="20%"></iframe>
+      </div>
+   </section>
+
+   <!-- Better example in a ng-repeat to limit "results" -->
+    <!--section class="slide">
         <div>
-            <h2>Filters</h2>
-            <ul>
-                <li>
-                    limitTo
-                </li>
-            </ul>
+            <h2>Filter: limitTo</h2>
 
             <pre class="brush: html">
             &lt;div ng-app>
@@ -185,20 +216,21 @@
             <br />
             <iframe class="demo" src="demos/filter-limitto.html" width="80%" height="20%"></iframe>
         </div>
-    </section>
+    </section-->
 
     <section class="slide">
         <div>
             <!-- Vis $first, $even, $last i console -->
-            <h2>ng-controller</h2>
+           <!-- TODO: Add scope image? -->
+            <h2>ng-controller &amp; ng-repeat</h2>
             <pre class="brush: js" title="JS:">
         var bekkApp = angular.module('bekkApp', []);
 
         bekkApp.controller('TeamsCtrl', function($scope) {
             $scope.teams = [
                 { name: 'Stabæk' },
-                { name: 'RBK' },
-                { name: 'Odd' }
+                { name: 'RBK'    },
+                { name: 'Odd'    }
             ];
           });
             </pre>
@@ -214,6 +246,44 @@
             <iframe class="demo" src="demos/controller.html" style="position: relative; top: -170px; left: 70%;"></iframe>
         </div>
     </section>
+
+   <section class="slide">
+      <div>
+         <h2>Filter: orderBy</h2>
+            <pre class="brush: html" title="HTML:">
+              &lt;div ng-app="bekkApp">
+                &lt;ul ng-controller="TeamsCtrl">
+                  &lt;li ng-repeat="team in teams | orderBy:'name'">
+                    {{team.name}}
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/div>
+            </pre>
+            <iframe class="demo" src="demos/controller-orderby.html"></iframe>
+            <pre class="brush: js">
+               $scope.teams = [{name: 'Stabæk'}, {name: 'RBK'}, {name: 'Odd'}];
+            </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Filter: filter</h2>
+            <pre class="brush: html" title="HTML:">
+                &lt;div ng-app="bekkApp">
+                  &lt;ul ng-controller="TeamsCtrl">
+                    Filter: &lt;input ng-model="search"/>
+                    &lt;li ng-repeat="team in teams|orderBy:'name' | filter:search">
+                      {{team.name}}
+                    &lt;/li>
+                  &lt;/ul>
+                &lt;/div>
+            </pre>
+         <iframe class="demo" src="demos/controller-filter.html"></iframe>
+      </div>
+   </section>
+
+
 
     <section class="slide">
         <div>
@@ -237,9 +307,27 @@
                     &lt;button ng-click="addTeam(team)">Add&lt;/button>
                 &lt;/ul>
             </pre>
-           <iframe class="demo" src="demos/controller-ng-click.html" style="position: relative; top: -170px; left: 80%; width: 27%"></iframe>
+           <iframe class="demo" src="demos/controller-ng-click.html" style="position: relative; top: -170px; left: 78%; width: 30%"></iframe>
         </div>
     </section>
+
+   <!-- TODO: Add animation example on add team? Ref: https://github.com/angular/angular.js/wiki/JsFiddle-Examples -->
+
+   <!--<section class="slide">
+      <div>
+         <h2>'ngTouch' module</h2>
+         <p>Provides touch events and adds touch support for ngClick.</p>
+         <p>Obs! Seperate file to include.</p>
+         <pre class="brush: html" title="HTML:">
+            &lt;script src="js/angular/angular-touch.js">&lt;/script>
+         </pre>
+         <pre class="brush: js" title="JS:">
+            // 'bekkApp' now depends on 'ngTouch' (DI):
+            angular.module('bekkApp', ['ngTouch']);
+         </pre>
+
+      </div>
+   </section>-->
 
    <section class="slide">
       <div>
@@ -265,21 +353,58 @@
       <div>
          <h2>Validation</h2>
          <p>required, ng-required, ng-minlength, ng-maxlength, min, max, ng-pattern</p>
-         <p>Status: $error, $prestine, $dirty, $valid, $invalid (&amp; matching css classes)</p>
-            <pre class="brush: html" title="HTML:">
-                &lt;div ng-app="bekkApp" ng-controller="TeamsCtrl">
-                   &lt;ul>
-                      &lt;li ng-repeat="team in teams">
-                         {{team.name}}
-                      &lt;/li>
-                   &lt;/ul>
-                   &lt;form ng-submit="addTeam(team)">
-                      &lt;input ng-model="team.name" />
-                      &lt;button>Add&lt;/button>
-                   &lt;/form>
-                &lt;/div>
-            </pre>
-         <iframe class="demo" src="demos/controller-ng-submit.html"></iframe>
+         <p>Status on form and fields: $error, $prestine, $dirty, $valid, $invalid</p>
+         <p>CSS classes: ng-valid, ng-pristine, ng-dirty, ng-invalid, ng-invalid-minlengt etc.</p>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Validation example</h2>
+         <pre class="brush: html" title="HTML:">
+            &lt;form name="myForm" ng-submit="addTeam(myForm, team)" novalidate>
+               &lt;input required ng-minlength="3" ng-model="team.name"/>
+               &lt;input type="submit" value="Add"/>
+            &lt;/form>       
+         </pre>
+         <pre class="brush: js" title="JS in TeamsCtrl:">
+         $scope.addTeam = function (form, team) {
+            if (form.$valid) {
+               $scope.teams.push($scope.team);
+               form.$setPristine(); // Unset dirty, set pristine
+               $scope.team = {};
+            }
+         }
+         </pre>
+         <pre class="brush: css">
+            input.ng-invalid.ng-dirty {
+               background-color: #FA787E;
+            }
+
+            input.ng-valid.ng-dirty {
+               background-color: #78FA89;
+            }
+         </pre>
+         <iframe class="demo" src="demos/controller-ng-submit-required.html" height="100"></iframe>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Custom validation</h2>
+
+         <p>
+            Model to View update - Whenever the bound model changes, all functions in NgModelController#$formatters
+            array are pipe-lined, so that each of these functions has an opportunity to format the value and change
+            validity state of the form control through NgModelController#$setValidity.
+         </p>
+
+         <p>
+            View to Model update - In a similar way, whenever a user interacts with a control it calls
+            NgModelController#$setViewValue. This in turn pipelines all functions in the NgModelController#$parsers
+            array, so that each of these functions has an opportunity to convert the value and change validity state of
+            the form control through NgModelController#$setValidity.
+         </p>
       </div>
    </section>
 
@@ -388,7 +513,25 @@
         </div>
     </section>
 
+   <!--
+   Vurdere tabs som directive eksempel? Ikke så mye kode, men mye funksjonalitet:
+   https://github.com/nervgh/angular-tabs/blob/master/js/angular/modules/tabs.js
+   -->
+
     <!-- OLD SLIDES -->
+
+   <section class="slide">
+      <div>
+         <h2>Questions?</h2>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Extra slides...</h2>
+
+      </div>
+   </section>
 
     <section class="slide">
         <div>
@@ -1263,6 +1406,7 @@ weatherApp.config(function ($httpProvider) {
     -->
     <script type="text/javascript" src="js/shBrushJScript.js"></script>
     <script type="text/javascript" src="js/shBrushXml.js"></script>
+    <script type="text/javascript" src="js/shBrushCss.js"></script>
 
     <!-- not in use -->
     <script type="text/javascript">

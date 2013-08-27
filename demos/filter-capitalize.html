@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+   <meta charset="UTF-8">
+   <title>ng-controller orderBy:name</title>
+   <script src="js/angular/angular.js"></script>
+   <script type="text/javascript">
+      var bekkApp = angular.module('bekkApp', []);
+
+      bekkApp.filter('capitalize', function () {
+         return function (input, scope) {
+            return angular.isString(input) && input.length > 0 ? input.substring(0, 1).toUpperCase() + input.substring(1) : input;
+         }
+      });
+   </script>
+</head>
+<body>
+
+<div ng-app="bekkApp">
+   Best team: <input ng-model="team.name">
+   <h2>Best team is {{ team.name | capitalize }}</h2>
+</div>
+
+</body>
+</html>
