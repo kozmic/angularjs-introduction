@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-controller orderBy:name</title>
+    <script src="js/angular/angular.js"></script>
+    <script type="text/javascript">
+        var bekkApp = angular.module('bekkApp', []);
+
+        bekkApp.controller('TeamsCtrl', function($scope) {
+            $scope.teams = [
+                { name: 'Stabæk' },
+                { name: 'RBK' },
+                { name: 'Odd' }
+            ];
+          });
+    </script>
+</head>
+<body>
+
+<div ng-app="bekkApp">
+    <ul ng-controller="TeamsCtrl">
+       Filter: <input ng-model="search"/>
+        <li ng-repeat="team in teams | orderBy:'name' | filter:search">
+            {{team.name}}
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
