@@ -8,8 +8,12 @@
       var bekkApp = angular.module('bekkApp', []);
 
       bekkApp.filter('capitalize', function () {
-         return function (input, scope) {
-            return angular.isString(input) && input.length > 0 ? input.substring(0, 1).toUpperCase() + input.substring(1) : input;
+         return function (str, scope) {
+            if (angular.isString(str)) {
+               return str.substring(0, 1).toUpperCase() + str.substring(1)
+            } else {
+               return str;
+            }
          }
       });
    </script>

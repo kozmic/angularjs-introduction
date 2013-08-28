@@ -34,12 +34,12 @@
 		.slide h2 {
 			margin: 0 0 20px;
 		}
-        .slide .left {
-            display: block;
-            float: left;
-            margin-right: 5px;
-            width: 375px;
-        }
+     .slide .left {
+         display: block;
+         float: left;
+         margin-right: 5px;
+         width: 375px;
+     }
 
 		#First h2 {
 			margin:65px 0 0;
@@ -85,6 +85,10 @@
         /*Reset Safari User Agent Styles*/
         ul {-webkit-padding-start: 0px !important;}
 
+        .slide ol, .slide ul {
+           margin-bottom: 15px;
+        }
+
 	</style>
 </head>
 <body class="list">
@@ -104,16 +108,19 @@
 
     <section class="slide">
         <div>
-            <h2>It's a framework...</h2>
+            <h2>AngularJS in 60 seconds</h2>
             <ul>
                <li>
-                  routing, templates, validation, testable, dependency injection, ajax ++
+                  reusable components (directives) and dependency injection
                </li>
                <li>
-                  reusable components (directives)
+                  templates, routing, validation, ajax, animation, caching, exception handling, web history, security, testable++
                </li>
+               <!--li>
+                  "Spring Core &amp; Spring Web" for the Javascript world
+               </li-->
                <li>
-                  "Spring Core &amp; Spring Web" for the Javascript world (complexity)
+                  Biggest gain in multiple large projects
                </li>
             </ul>
         </div>
@@ -128,9 +135,39 @@
         <h2>AngularJS is a drama queen!</h2>
     </div></section>
 
+   <section class="slide">
+      <div>
+         <h2>Today: Code!</h2>
+         <p>...with some explanations</p>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Dislaimer!</h2>
+         <p>AngularJS belive in declarative UI:</p>
+         <pre class="brush: html">
+            &lt;google-map lat="59.2" long="10.1">&lt;/google-map>
+            &lt;google-map lat="71.1" long="71.1">&lt;/google-map>
+         </pre>
+         <p>Some prefer imperative:</p>
+         <pre class="brush: html">
+            &lt;div id="googleMap1">&lt;/div>
+            &lt;div id="googleMap2">&lt;/div>
+            // js bind #googleMap1/2, set lat & long, render map
+         </pre>
+
+      </div>
+   </section>
+
     <section class="slide">
         <div>
             <h2>Hello world!</h2>
+           <ul>
+              <li>
+                 ng-model: Two way data binding
+              </li>
+           </ul>
 
             <pre class="brush: html">
                 &lt;script src="js/angular.js">&lt;/script>
@@ -149,17 +186,16 @@
          <h2>Directives</h2>
          <ul>
             <li>
-               ng-app: Boostraps app with <code>bekkApp</code> module.
+               <code>angular.module(name, ['dep1','dep2']);</code>
             </li>
             <li>
-               ng-model: Two way data binding
+               ng-app: Boostraps app with <code>bekkApp</code> module.
             </li>
          </ul>
-         <pre class="brush: html">
-                &lt;script src="js/angular.js">&lt;/script>
-               &lt;script>
-                  var bekkApp = angular.module('bekkApp', []);
-               &lt;/script>
+         <pre class="brush: js" title="bekkApp.js:">
+            var bekkApp = angular.module('bekkApp', []);
+         </pre>
+         <pre class="brush: html" title="HTML:">
                 &lt;div ng-app="bekkApp">
                     Best team: &lt;input ng-model=”team.name”>
                     &lt;h2>Best team is {{ team.name }}&lt;/h2>
@@ -188,11 +224,15 @@
       <div>
          <h2>Filter: create your own</h2>
 
-         <pre class="brush: js" title="Defined your filter in bekkApp module:">
-            bekkApp.filter('capitalize', function() {
-                return function(input, scope) {
-                    return angular.isString(input) && input.length > 0 ? input.substring(0,1).toUpperCase()+input.substring(1) : input;
+         <pre class="brush: js" title="Defined your filter in 'bekkApp' module:">
+            bekkApp.filter('capitalize', function () {
+              return function (str, scope) {
+                if (angular.isString(str)) {
+                  return str.substring(0, 1).toUpperCase() + str.substring(1)
+                } else {
+                  return str;
                 }
+               }
             });
          </pre>
          <pre class="brush: html" title="Use it:">
@@ -217,6 +257,26 @@
             <iframe class="demo" src="demos/filter-limitto.html" width="80%" height="20%"></iframe>
         </div>
     </section-->
+
+   <section class="slide">
+      <div>
+         <h2>Controller</h2>
+         <ul>
+            <li>Fetch model from service</li>
+            <li>Bind model to scope</li>
+            <li>Template reads/writes model</li>
+            <li>Help functions for template, ex. $scope.submitForm(form) {...}</li>
+            <li>Never touches DOM!</li>
+         </ul>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Controller</h2>
+         <img src="img/ngcontroller2.png"/>
+      </div>
+   </section>
 
     <section class="slide">
         <div>
@@ -259,10 +319,10 @@
                 &lt;/ul>
               &lt;/div>
             </pre>
-            <iframe class="demo" src="demos/controller-orderby.html"></iframe>
-            <pre class="brush: js">
+            <pre class="brush: js" title="">
                $scope.teams = [{name: 'Stabæk'}, {name: 'RBK'}, {name: 'Odd'}];
             </pre>
+            <iframe class="demo" src="demos/controller-orderby.html"></iframe>
       </div>
    </section>
 
@@ -283,7 +343,24 @@
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>ng-class</h2>
+         <p>
+            ng-class / ng-class-even / ng-class-odd sets class based on model value
+         </p>
 
+            <pre class="brush: html" title="HTML">
+                Best team: &lt;input ng-model="team.name">
+                &lt;p ng-class="{good: isGood(team)}"
+                   ng-show="team.name">
+                    The best team is {{team.name}}
+                &lt;/p>
+            </pre>
+         <br />
+         <iframe class="demo" src="demos/input-ng-class.html" width="80%" height="20%"></iframe>
+      </div>
+   </section>
 
     <section class="slide">
         <div>
@@ -352,166 +429,191 @@
    <section class="slide">
       <div>
          <h2>Validation</h2>
-         <p>required, ng-required, ng-minlength, ng-maxlength, min, max, ng-pattern</p>
-         <p>Status on form and fields: $error, $prestine, $dirty, $valid, $invalid</p>
-         <p>CSS classes: ng-valid, ng-pristine, ng-dirty, ng-invalid, ng-invalid-minlengt etc.</p>
+         <ul>
+            <li>required</li>
+            <li>ng-required</li>
+            <li>ng-minlength</li>
+            <li>ng-maxlength</li>
+            <li>min</li>
+            <li>max</li>
+            <li>ng-pattern</li>
+         </ul>
+         <p>Properties: $error, $prestine, $dirty, $valid, $invalid</p>
+         <p>CSS class: ng-valid, ng-pristine, ng-dirty, ng-invalid, ng-invalid-required</p>
+         <p>... and of course build your own (directive)</p>
       </div>
    </section>
 
    <section class="slide">
       <div>
-         <h2>Validation example</h2>
+         <h2>Validation: required</h2>
          <pre class="brush: html" title="HTML:">
             &lt;form name="myForm" ng-submit="addTeam(myForm, team)" novalidate>
-               &lt;input required ng-minlength="3" ng-model="team.name"/>
-               &lt;input type="submit" value="Add"/>
-            &lt;/form>       
-         </pre>
-         <pre class="brush: js" title="JS in TeamsCtrl:">
-         $scope.addTeam = function (form, team) {
-            if (form.$valid) {
-               $scope.teams.push($scope.team);
-               form.$setPristine(); // Unset dirty, set pristine
-               $scope.team = {};
-            }
-         }
-         </pre>
-         <pre class="brush: css">
-            input.ng-invalid.ng-dirty {
-               background-color: #FA787E;
-            }
 
-            input.ng-valid.ng-dirty {
-               background-color: #78FA89;
-            }
+               &lt;input name="name" required ng-model="team.name"/>
+               &lt;input type="submit" value="Add"/>
+
+               &lt;p class="error" ng-show="myForm.name.$error.required">
+                  Name is required!
+               &lt;/p>
+            &lt;/form>   
          </pre>
-         <iframe class="demo" src="demos/controller-ng-submit-required.html" height="100"></iframe>
+
+         <iframe class="demo" src="demos/controller-ng-submit-required.html" height="30%"></iframe>
       </div>
    </section>
 
    <section class="slide">
       <div>
-         <h2>Custom validation</h2>
+         <h2>Custom directives</h2>
+         <ul>
+            <li>
+               Encapsulate functionality
+            </li>
+            <li>
+               Only place it's "allowed" to manipulate DOM
+            </li>
+            <li>
+               Shared between applications (<a href="http://ngmodules.org" target="_blank">ngmodules.org</a>)
+            </li>
+            <li>
+               A directive may use other directives
+            </li>
+            <li>
+               Examples: focus in input field, tab menu, listen to DOM events, google map, gmail inbox
+            </li>
+         </ul>
+      </div>
+   </section>
 
-         <p>
-            Model to View update - Whenever the bound model changes, all functions in NgModelController#$formatters
-            array are pipe-lined, so that each of these functions has an opportunity to format the value and change
-            validity state of the form control through NgModelController#$setValidity.
-         </p>
+   <section class="slide">
+      <div>
+         <h2>Directive API</h2>
+         <p>Only place DOM manipulation is allowed.</p>
+            <pre class="brush: js">
+            myApp.directive('myDirective', function(dep1, dep2) {
+              return {
+                replace: true,
+                restrict: 'EACM',
+                priority: 10,
+                templateUrl: 'directive.html',
+                template: '<div></div>',
+                scope: { localName:'@' },
+                controller: function($scope, $element, $attrs, $transclude, dep1) {},
+                compile: function compile(tElement, tAttrs, transclude) {
+                },
+                link: function postLink(scope, iElement, iAttrs) {
+                  scope.$watch('name', function(newVal, oldVal) {..}
+                }
+              }
+            });
+            </pre>
+      </div>
+   </section>
 
-         <p>
-            View to Model update - In a similar way, whenever a user interacts with a control it calls
-            NgModelController#$setViewValue. This in turn pipelines all functions in the NgModelController#$parsers
-            array, so that each of these functions has an opportunity to convert the value and change validity state of
-            the form control through NgModelController#$setValidity.
-         </p>
+   <section class="slide">
+      <div>
+         <h2>Using directives</h2>
+         <ul>
+            <li><code>E</code> - Element name: <code>&lt;my-directive&gt;&lt;/my-directive&gt;</code></li>
+            <li><code>A</code> - Attribute: <code>&lt;div my-directive="exp"&gt;&lt;/div&gt;</code></li>
+            <li><code>C</code> - Class: <code>&lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</code></li>
+            <li><code>M</code> - Comment: <code>&lt;!-- directive: my-directive exp --&gt;</code></li>
+         </ul>
+
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>DateFormatter directive</h2>
+			<pre class="brush: js">
+				// Example usage:  &lt;p class="DateFormatter" dato="{{myDate}}" />
+				// &lt;p class="DateFormatter" dato="{{myDate}}" format="'yyyy-dd-MM'"/>
+				bekkApp.directive('DateFormatter', function(DateUtilService) {
+					return {
+						link: function($scope, el, attrs) {
+							var format = attrs.format ? attrs.format : 'd. MMMM yyyy';
+
+							attrs.$observe('dato', function(dato) {
+								el.text(DateUtilService.convertFormat(dato, inForm, outputFormat));
+							});
+						}
+					};
+				})
+				;
+			</pre>
       </div>
    </section>
 
 
-    <section class="slide">
-        <div>
-            <h2>Removed for brevity</h2>
-            <p>
-                anuglar.js and ng-app removed in examples for brevity.
-            </p>
-            <pre class="brush: html">
-                &lt;script src="js/angular.js">&lt;/script>
-                &lt;div ng-app>
-                &lt;/div>
+   <section class="slide">
+      <div>
+         <h2>Routes</h2>
+         <p>Loads partials into <code>&lt;ng-view/></code>.</p>
+            <pre class="brush: js">
+               bekkApp.config( function( $routeProvider ) {
+                 $routeProvider
+                   .when('/teams', {
+                     templateUrl: 'teams.html',
+                     controller: TeamListCtrl
+                   })
+
+                   .when('/team/:teamId', {
+                      templateUrl: 'team.html',
+                      controller: TeamCtrl
+                   })
+
+                   .when('/404', { templateUrl: '404.html' })
+
+                   .otherwise( { redirectTo: '/404' });
+                 });
             </pre>
-        </div>
-    </section>
+      </div>
+   </section>
 
-    <section class="slide">
-        <div>
-            <h2>ng-hide &amp; ng-show</h2>
-            <p>
-                hides / shows elements with css.
-            </p>
+   <section class="slide">
+      <div>
+         <h2>Read URL param in controller</h2>
+         <pre class="brush: js" title="$routeProvider config">
+         $routeProvider.when('/team/:teamId', {
+            templateUrl: 'team.html',
+            controller: TeamCtrl
+         })
+         </pre>
+         <pre class="brush: js" title="TeamCtrl.js">
+          bekkApp.controller('TeamCtrl',
+              function($scope, TeamService, $routeParams) {
 
-            <pre class="brush: html" title="HTML">
-                &lt;p ng-hide="team.name">Fill in the form&lt;/p>
-                Best team: &lt;input ng-model="team.name">
-                &lt;p ng-show="team.name">
-                    The best team is {{team.name}}
-                &lt;/p>
-            </pre>
-            <br />
-            <iframe class="demo" src="demos/input-ng-hide.html" width="80%" height="20%"></iframe>
-        </div>
-    </section>
-    
-    <section class="slide">
-        <div>
-            <h2>Controller</h2>
-            <p>
-                Controller provides model and help functions to template.
-            </p>
-            
-            <pre class="brush: js" title="JS">
-            	angular.module('app').controller(function($scope, 'TeamService') {
-            		$scope.team = TeamService.get();
-            	});
-            </pre>
+                 $scope.team = TeamService.get($routeParams.teamId);
+          });
+         </pre>
+         <pre class="brush: html" title="team.html">
+            Team: {{ team.name }}
+         </pre>
 
-            <pre class="brush: html" title="HTML">
-                &lt;p ng-controller="TeamCtrl">
-                  &lt;p ng-show="team.name">
-                   The best team is {{team.name}}
-                  &lt;/p>
-                &lt;/p>
-            </pre>
-            <br />
-            <iframe class="demo" src="demos/input-ng-hide.html" width="80%" height="20%"></iframe>
-        </div>
-    </section>
+      </div>
+   </section>
 
-    <section class="slide">
-        <div>
-            <h2>required &amp; ng-required</h2>
-            <p>
-                ng-required can toggle required based on model.<br />
-                Sets class to "ng-invalid" and "ng-invalid-required".
-            </p>
+   <section class="slide">
+      <div>
+         <h2>Listen on route change events</h2>
+			<pre class="brush: js">
+				weatherApp.run(function (TrackingService, $rootScope) {
+				  $rootScope.$on(
+					'$routeChangeStart',
+					TrackingService.trackEvent
+				  );
+				})
+			</pre>
+      </div>
+   </section>
 
-            <pre class="brush: html">
-              Best team: &lt;input required ng-model="team.name">
-              &lt;p ng-show="team.name">
-                The best team is {{team.name}}
-              &lt;/p>
-            </pre>
-            <br />
-            <iframe class="demo" src="demos/input-required.html" width="80%" height="20%"></iframe>
-        </div>
-    </section>
-    
-
-    <section class="slide">
-        <div>
-            <h2>ng-class</h2>
-            <p>
-                ng-class / ng-class-even / ng-class-odd sets class based on model value
-            </p>
-
-            <pre class="brush: html" title="HTML">
-                Best team: &lt;input ng-model="team.name">
-                &lt;p ng-class="{good: team.name=='Stabæk'}"
-                   ng-show="team.name">
-                    The best team is {{team.name}}
-                &lt;/p>
-            </pre>
-            <br />
-            <iframe class="demo" src="demos/input-ng-class.html" width="80%" height="20%"></iframe>
-        </div>
-    </section>
-
-    <section class="slide">
-        <div>
-            <h2>Controller</h2>
-            <p>Glue between services, model and template</p>
-        </div>
-    </section>
+   <section class="slide" id="q">
+      <div>
+         <h2>Questions?</h2>
+      </div>
+   </section>
 
    <!--
    Vurdere tabs som directive eksempel? Ikke så mye kode, men mye funksjonalitet:
@@ -522,7 +624,32 @@
 
    <section class="slide">
       <div>
-         <h2>Questions?</h2>
+         <h2>Generic interceptor</h2>
+			<pre class="brush: js">
+weatherApp.config(function ($httpProvider) {
+	var errorInterceptor = function ($q, $location) {
+
+		function success(response) {
+			return response;
+		}
+
+		function error(response) {
+			if (response.status < 200 || response.status >= 400) {
+				$location.path("/error");
+				return $q.reject(response);
+			}
+		}
+
+		return function (promise) {
+			return promise.then(success, error);
+		};
+
+	};
+
+	$httpProvider.responseInterceptors.push(errorInterceptor);
+});
+
+			</pre>
       </div>
    </section>
 
@@ -571,7 +698,47 @@
         </div>
     </section>
 
-    <section class="slide"><div>
+
+  <section class="slide">
+      <div>
+          <h2>ng-hide &amp; ng-show</h2>
+          <p>
+              hides / shows elements with css.
+          </p>
+
+          <pre class="brush: html" title="HTML">
+              &lt;p ng-hide="team.name">Fill in the form&lt;/p>
+              Best team: &lt;input ng-model="team.name">
+              &lt;p ng-show="team.name">
+                  The best team is {{team.name}}
+              &lt;/p>
+          </pre>
+          <br />
+          <iframe class="demo" src="demos/input-ng-hide.html" width="80%" height="20%"></iframe>
+      </div>
+  </section>
+
+   <section class="slide">
+     <div>
+         <h2>required &amp; ng-required</h2>
+         <p>
+             ng-required can toggle required based on model.<br />
+             Sets class to "ng-invalid" and "ng-invalid-required".
+         </p>
+
+         <pre class="brush: html">
+           Best team: &lt;input required ng-model="team.name">
+           &lt;p ng-show="team.name">
+             The best team is {{team.name}}
+           &lt;/p>
+         </pre>
+         <br />
+         <iframe class="demo" src="demos/input-required.html" width="80%" height="20%"></iframe>
+     </div>
+ </section>
+
+
+   <section class="slide"><div>
         <h2>Hello world</h2>
 
         <pre class="brush: html" title="HTML">
@@ -871,89 +1038,7 @@
 		</div>
 	</section>
 
-    <section class="slide">
-        <div>
-            <h2>Custom directives: Two categories</h2>
-            <ul>
-                <li>
-                    Component:
-                    <ul><li>Simple, one element in template (no nesting).
-                        <ul><li>Example: &lt;weatherIcon src="model.src"/></li></ul>
-                    </li></ul>
-                </li>
-                <li>
-                    Container:
-                    <ul><li>Complex, nested templates and/or directives. Example:
-                        <ul><li>&lt;menuSystem menu="model.fullMenuThree"/></li></ul>
-                    </li></ul>
-                </li>
-            </ul>
-        </div>
-    </section>
 
-	<section class="slide">
-		<div>
-			<h2>Directive API</h2>
-            <p>Only place DOM manipulation is allowed.</p>
-            <pre class="brush: js">
-            myApp.directive('myDirective', function(dep1, dep2) {
-              return {
-                replace: true,
-                restrict: 'EACM',
-                priority: 0,
-                templateUrl: 'directive.html',
-                template: '<div></div>',
-                scope: { localName:'@' },
-                controller: function($scope, $element, $attrs, $transclude, dep1) {},
-                transclude: true,
-                compile: function compile(tElement, tAttrs, transclude) {
-                },
-                link: function postLink(scope, iElement, iAttrs) {
-                  scope.$watch('name', function(newVal, oldVal) {..}
-                }
-              }
-            });
-            </pre>
-		</div>
-	</section>
-
-    <section class="slide">
-        <div>
-            <h2>Using directives</h2>
-            <ul>
-                <li><code>E</code> - Element name: <code>&lt;my-directive&gt;&lt;/my-directive&gt;</code></li>
-                <li><code>A</code> - Attribute: <code>&lt;div my-directive="exp"&gt;&lt;/div&gt;</code></li>
-                <li><code>C</code> - Class: <code>&lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</code></li>
-                <li><code>M</code> - Comment: <code>&lt;!-- directive: my-directive exp --&gt;</code></li>
-            </ul>
-
-        </div>
-    </section>
-
-	<section class="slide">
-		<div>
-			<h2>Custom directive</h2>
-            <p>DateFormatter directive:</p>
-			<pre class="brush: js">
-				// Example usage:  &lt;p class="DateFormatter" data-dato="{{myDate}}" />
-				weatherApp.directive('DateFormatter', function(DateUtilService) {
-					return {
-						replace: false
-						restrict: 'C',
-						link: function($scope, el, attrs) {
-							var inputFormat = attrs.inputFormat ? attrs.inputFormat : 'd.M.yyyy';
-							var outputFormat = attrs.outputFormat ? attrs.outputFormat : 'd. MMMM yyyy';
-
-							attrs.$observe('dato', function(dato) {
-								el.text(DateUtilService.convertFormat(dato, inputFormat, outputFormat));
-							});
-						}
-					};
-				})
-				;
-			</pre>
-		</div>
-	</section>
 
     <section class="slide">
         <div>
@@ -1221,76 +1306,7 @@
         </div>
     </section>
 
-	<section class="slide">
-		<div>
-			<h2>Generic interceptor</h2>
-			<pre class="brush: js">
-weatherApp.config(function ($httpProvider) {
-	var errorInterceptor = function ($q, $location) {
 
-		function success(response) {
-			return response;
-		}
-
-		function error(response) {
-			if (response.status < 200 || response.status >= 400) {
-				$location.path("/error");
-				return $q.reject(response);
-			}
-		}
-
-		return function (promise) {
-			return promise.then(success, error);
-		};
-
-	};
-
-	$httpProvider.responseInterceptors.push(errorInterceptor);
-});
-
-			</pre>
-		</div>
-	</section>
-
-    <section class="slide">
-        <div>
-            <h2>Routes</h2>
-            <p>Loads partials into <code>&lt;ng-view/></code>.</p>
-            <pre class="brush: js">
-                angular.module('myRoutes',[]).config(function($routeProvider, $locationProvider) {
-                  $routeProvider
-					.when('/weather', {
-					  templateUrl: 'search.html',
-					  controller: SearchCtrl
-					})
-					.when('/weather/:city', {
-						templateUrl: 'result.html',
-						controller: ResultCtrl
-					})
-
-					.when('/404', { templateUrl: '404.html' })
-
-					.otherwise( { redirectTo: '/404' });
-    
-                    $locationProvider.html5Mode(true);
-                });
-            </pre>
-        </div>
-    </section>
-
-	<section class="slide">
-		<div>
-			<h2>Listen on route change events</h2>
-			<pre class="brush: js">
-				weatherApp.run(function (TrackingService, $rootScope) {
-				  $rootScope.$on(
-					'$routeChangeStart',
-					TrackingService.trackEvent
-				  );
-				})
-			</pre>
-		</div>
-	</section>
 
     <section class="slide">
         <div>

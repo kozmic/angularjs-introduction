@@ -9,7 +9,7 @@
 
       bekkApp.controller('TeamsCtrl', function ($scope, $log) {
 
-         $scope.teams = [ {name: 'RBK' }];
+         $scope.teams = [];
 
          $scope.addTeam = function (form, team) {
 
@@ -25,8 +25,12 @@
       });
    </script>
    <style type="text/css">
-      .error {
-         color: #FA787E;
+      input.ng-invalid.ng-dirty {
+         background-color: #FA787E;
+      }
+
+      input.ng-valid.ng-dirty {
+         background-color: #78FA89;
       }
    </style>
 </head>
@@ -40,11 +44,8 @@
    </ul>
 
    <form name="myForm" ng-submit="addTeam(myForm, team)" novalidate>
-      <input name="name" required ng-model="team.name"/>
+      <input required ng-minlength="3" ng-model="team.name"/>
       <input type="submit" value="Add"/>
-      <p class="error" ng-show="myForm.name.$error.required">
-         Name is required!
-      </p>
    </form>
 </div>
 
