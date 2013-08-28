@@ -210,6 +210,11 @@
       </div>
    </section>
 
+   <section class="slide cover">
+      <img src="img/feelings_about_angularjs_over_time.png"/>
+      <p class="source"><a href="http://www.bennadel.com/blog/2439-My-Experience-With-AngularJS-The-Super-heroic-JavaScript-MVW-Framework.htm">Source: Ben Nadel</a></p>
+   </section>
+
     <section class="slide">
         <div>
             <h2>Filter: uppercase</h2>
@@ -461,8 +466,8 @@
                 $scope.teams = TeamsService.query(); // GET
 
                 $scope.addTeam = function(team) {
-                   $scope.teams = TeamService.save(team); // POST
-                   $scope.team = {};
+                   TeamService.save(team); // POST
+                   $scope.teams = TeamsService.query();
                 }
              });
          </pre>
@@ -517,10 +522,10 @@
                Only place it's "allowed" to manipulate DOM
             </li>
             <li>
-               Shared between applications (<a href="http://ngmodules.org" target="_blank">ngmodules.org</a>)
+               A directive may use other directives
             </li>
             <li>
-               A directive may use other directives
+               Shared between applications (<a href="http://ngmodules.org" target="_blank">ngmodules.org</a>)
             </li>
             <li>
                Examples: focus in input field, dynamically set tabindex, menu system, listen to DOM events, google map, gmail inbox
@@ -575,11 +580,12 @@
 				// &lt;p class="DateFormatter" dato="{{myDate}}" format="'yyyy-dd-MM'"/>
 				bekkApp.directive('DateFormatter', function(DateUtilService) {
 					return {
+						restrict: 'C',
 						link: function($scope, el, attrs) {
 							var format = attrs.format ? attrs.format : 'd. MMMM yyyy';
 
 							attrs.$observe('dato', function(dato) {
-								el.text(DateUtilService.convertFormat(dato, inForm, outputFormat));
+								el.text(DateUtilService.convertFormat(dato, format));
 							});
 						}
 					};
@@ -701,7 +707,7 @@
       <div>
          <h2>Generic interceptor</h2>
 			<pre class="brush: js">
-weatherApp.config(function ($httpProvider) {
+bekkApp.config(function ($httpProvider) {
 	var errorInterceptor = function ($q, $location) {
 
 		function success(response) {
@@ -740,7 +746,7 @@ weatherApp.config(function ($httpProvider) {
             <h2>$provide.decorator</h2>
             <p>Nice to modify third party code/modules.</p>
             <pre class="brush: js">
-            app.config(function($provide) {
+            bekkApp.config(function($provide) {
                 $provide.decorator('foo', function($delegate) {
                     $delegate.greet = function() {
                         return "greet() added to 'foo'";
