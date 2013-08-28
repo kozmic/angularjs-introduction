@@ -589,6 +589,38 @@
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>We all miss &lt;blink&gt;...</h2>
+         <pre class="brush: js">
+            bekkApp.directive('blink', function ($timeout) {
+              return {
+               restrict: 'E',
+               transclude: true,
+               scope: {},
+               link: function ($scope, $element) {
+                  function showElement() {
+                     $element.css("display", "inline");
+                     $timeout(hideElement, 1000);
+                  }
+
+                  function hideElement() {
+                     $element.css("display", "none");
+                     $timeout(showElement, 1000);
+                  }
+
+                  showElement();
+               },
+               template: '<strong><span ng-transclude></span></strong>',
+               replace: true
+             };
+            })
+         </pre>
+         <iframe class="demo" src="demos/blink.html" style="position: relative; top: -300px; left: 70%;"></iframe>
+         <a style="font-size: 0.5em;" href="http://blog.petermolgaard.com/2012/05/31/how-to-implement-a-blink-tag-in-angularjs/">Source: Peter Molgaard</a>
+      </div>
+   </section>
+
 
    <section class="slide">
       <div>

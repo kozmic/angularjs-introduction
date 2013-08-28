@@ -1,11 +1,14 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-    <meta charset="UTF-8">
-    <title>&lt;blink&gt;</title>
-    <script src="js/angular/angular.js"></script>
+   <meta charset="UTF-8">
+   <title>&lt;blink&gt;</title>
+   <script src="js/angular/angular.js"></script>
    <script type="text/javascript">
-      var bekkApp = angular.module('bekkApp', []).directive('blink', function ($timeout) {
+      // Original version: http://blog.petermolgaard.com/2012/05/31/how-to-implement-a-blink-tag-in-angularjs/
+      var bekkApp = angular.module('bekkApp', []);
+
+      bekkApp.directive('blink', function ($timeout) {
          return {
             restrict: 'E',
             transclude: true,
@@ -23,17 +26,17 @@
 
                showElement();
             },
-            template: '<span ng-transclude></span>',
+            template: '<strong><span ng-transclude></span></strong>',
             replace: true
          };
       })
-</script>
+   </script>
 </head>
 <body>
 
-<div ng-app>
-   Hei
-    <blink>I'm back!</blink>
+<div ng-app="bekkApp">
+   &lt;blink>I'm back!&lt;/blink> becomes:<br>
+   <blink>I'm back!</blink>
 </div>
 
 </body>
