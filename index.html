@@ -88,6 +88,11 @@
         .slide ol, .slide ul {
            margin-bottom: 15px;
         }
+      /* Mark text color: */
+        ::selection {
+           background:#FFAAFF;
+           /*color:#000;*/
+        }
 
 	</style>
 </head>
@@ -428,6 +433,44 @@
 
    <section class="slide">
       <div>
+         <h2>Fix demo-ish code</h2>
+         <pre class="brush: js" title="No backend IRL?">
+             bekkApp.controller('TeamsCtrl', function($scope) {
+                $scope.teams = [];
+
+                $scope.addTeam = function(team) {
+                   $scope.teams.push(team);
+                   $scope.team = {};
+                }
+             }
+         </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>$resource</h2>
+         <p>Include angular-resource.js and add dependency: <code>angular.module('bekkApp', ['ngResource'])</code></p>
+         <pre class="brush: js" title="TeamService:">
+             bekkApp.factory('TeamsService', function($resource) {
+                return $resource('/teams/:id');
+             });
+         </pre>
+         <pre class="brush: js" title="TeamsCtrl:">
+             bekkApp.controller('TeamsCtrl', function($scope, TeamsService) {
+                $scope.teams = TeamsService.query(); // GET
+
+                $scope.addTeam = function(team) {
+                   $scope.teams = TeamService.save(team); // POST
+                   $scope.team = {};
+                }
+             });
+         </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
          <h2>Validation</h2>
          <ul>
             <li>required</li>
@@ -599,7 +642,7 @@
       <div>
          <h2>Listen on route change events</h2>
 			<pre class="brush: js">
-				weatherApp.run(function (TrackingService, $rootScope) {
+				bekkApp.run(function (TrackingService, $rootScope) {
 				  $rootScope.$on(
 					'$routeChangeStart',
 					TrackingService.trackEvent
