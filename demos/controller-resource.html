@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+   <meta charset="UTF-8">
+   <title>ng-submit</title>
+   <script src="js/angular/angular.js"></script>
+   <script src="js/angular/angular-resource.js"></script>
+   <script type="text/javascript">
+      var bekkApp = angular.module('bekkApp', ['ngResource']);
+
+      bekkApp.factory('TeamsService', function($resource) {
+         return $resource('/teams/:id');
+      });
+
+
+      bekkApp.controller('TeamsCtrl', function($scope, TeamsService) {
+         $scope.teams = TeamsService.query(); // GET
+
+         $scope.addTeam = function(team) {
+            TeamsService.save(team); // POST
+            $scope.teams = TeamsService.query(); // Update list from backend
+            $scope.team = {};
+         }
+
+
+         // DEMO code:
+         window.TeamsService = TeamsService;
+         window.teams = $scope.teams;
+
+         //
+      });
+   </script>
+</head>
+<body>
+
+<div ng-app="bekkApp" ng-controller="TeamsCtrl">
+   <ul>
+      <li ng-repeat="team in teams">
+         {{team.name}}
+      </li>
+   </ul>
+   <form ng-submit="addTeam(team)">
+      <input ng-model="team.name"/>
+      <button>Add</button>
+   </form>
+</div>
+
+</body>
+</html>

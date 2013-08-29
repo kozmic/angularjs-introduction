@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-required</title>
+    <script src="js/angular/angular.js"></script>
+    <style>
+        .ng-invalid {
+            border: red 2px solid;
+        }
+        input:focus {
+            outline: none;
+        }
+        .good {
+            color: #ff1493;
+            border: green;
+            box-shadow: 0 0 5px rgba(200, 50, 50, 1);
+            -webkit-box-shadow: 0 0 5px rgba(200, 50, 50, 1);
+            -moz-box-shadow: 0 0 5px rgba(200, 50, 50, 1);
+        }
+    </style>
+</head>
+<body>
+
+<div ng-app>
+    Best team: <input required ng-model="team.name">
+    <p ng-show="team.name">
+        The best team is {{team.name}}
+    </p>
+</div>
+
+</body>
+</html>

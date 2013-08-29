@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+   <meta charset="UTF-8">
+   <title>directive: date-formatter</title>
+   <script src="js/angular/angular.js"></script>
+   <script type="text/javascript">
+
+      angular.module('bekkApp', [])
+
+            .factory('DateUtilService', function ($log) {
+
+               var convertFormat = function (dato, format) {
+                  $log.info('DateUtilService.convertFormat', dato, format);
+                  return dato; // TODO: Use Date.js/moment.js to actually format the date...
+               }
+
+               return {
+                  convertFormat: convertFormat
+               };
+            })
+
+            .directive('DateFormatter', function (DateUtilService, $log) {
+               return {
+                  restrict: 'C',
+                  link: function ($scope, el, attrs, $log) {
+                     var format = attrs.format ? attrs.format : 'd. MMMM yyyy';
+
+                     attrs.$observe('dato', function (dato) {
+                        el.text(DateUtilService.convertFormat(dato, format));
+                     });
+                  }
+               };
+            })
+
+            .controller('DateController', function ($scope, $log) {
+               $log.info('DateController init');
+
+               $scope.myDate = new Date();
+            })
+   </script>
+</head>
+<body>
+
+<div ng-app="bekkApp" ng-controller="DateController">
+   <h2>Current date formatter: <p class="DateFormatter" data-dato="{{myDate}}" format="'yyyy-dd-MM'"/></h2>
+</div>
+
+</body>
+</html>

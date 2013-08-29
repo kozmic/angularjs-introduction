@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+   <meta charset="UTF-8">
+   <title>&lt;blink&gt;</title>
+   <script src="js/angular/angular.js"></script>
+   <script type="text/javascript">
+      // Original version: http://blog.petermolgaard.com/2012/05/31/how-to-implement-a-blink-tag-in-angularjs/
+      var bekkApp = angular.module('bekkApp', []);
+
+      bekkApp.directive('blink', function ($timeout) {
+         return {
+            restrict: 'E',
+            transclude: true,
+            scope: {},
+            link: function ($scope, $element) {
+               function showElement() {
+                  $element.css("display", "inline");
+                  $timeout(hideElement, 1000);
+               }
+
+               function hideElement() {
+                  $element.css("display", "none");
+                  $timeout(showElement, 1000);
+               }
+
+               showElement();
+            },
+            template: '<strong><span ng-transclude></span></strong>',
+            replace: true
+         };
+      })
+   </script>
+</head>
+<body>
+
+<div ng-app="bekkApp">
+   &lt;blink>I'm back!&lt;/blink> becomes:<br>
+   <blink>I'm back!</blink>
+</div>
+
+</body>
+</html>

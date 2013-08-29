@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>filter: limitTo</title>
+    <script src="js/angular/angular.js"></script>
+</head>
+<body>
+
+<div ng-app ng-init="team.name = 'Stabæk'">
+    Best team: <input ng-model="team.name">
+    <h2>The best team is {{ team.name | uppercase | limitTo: 3 }}</h2>
+</div>
+
+</body>
+</html>

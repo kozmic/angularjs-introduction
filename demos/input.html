@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-model</title>
+    <script src="js/angular/angular.js"></script>
+   <script>
+      angular.module('bekkApp', []);
+   </script>
+</head>
+<body>
+
+<div ng-app="bekkApp">
+    Best team: <input ng-model="team.name">
+    <h2>The best team is {{team.name}}</h2>
+</div>
+
+</body>
+</html>

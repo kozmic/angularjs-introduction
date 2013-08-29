@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+   <meta charset="UTF-8">
+   <title>ng-submit required</title>
+   <script src="js/angular/angular.js"></script>
+   <script type="text/javascript">
+      var bekkApp = angular.module('bekkApp', []);
+
+      bekkApp.controller('TeamsCtrl', function ($scope, $log) {
+
+         $scope.teams = [];
+
+         $scope.addTeam = function (form, team) {
+
+            if (form.$valid) {
+               $scope.teams.push($scope.team);
+               form.$setPristine(); // Unset dirty, set pristine
+               $scope.team = {};
+            } else {
+               $log.info("Not valid.", form.$error);
+            }
+
+         }
+      });
+   </script>
+   <style type="text/css">
+      input.ng-invalid.ng-dirty {
+         background-color: #FA787E;
+      }
+
+      input.ng-valid.ng-dirty {
+         background-color: #78FA89;
+      }
+   </style>
+</head>
+<body>
+
+<div ng-app="bekkApp" ng-controller="TeamsCtrl">
+   <ul>
+      <li ng-repeat="team in teams">
+         {{team.name}}
+      </li>
+   </ul>
+
+   <form name="myForm" ng-submit="addTeam(myForm, team)" novalidate>
+      <input required ng-minlength="3" ng-model="team.name"/>
+      <input type="submit" value="Add"/>
+   </form>
+</div>
+
+</body>
+</html>

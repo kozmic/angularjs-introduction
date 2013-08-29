@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-hide</title>
+    <script src="js/angular/angular.js"></script>
+    <style>
+        div:first-child {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100%;
+            height: 20%;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-app>
+    Best team: <input ng-model="team.name">
+    <p ng-hide="team.name">Please fill inn.</p>
+    <p ng-show="team.name">The best team is {{team.name}}</p>
+</div>
+
+</body>
+</html>
