@@ -299,10 +299,10 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
          <h2>Controller</h2>
          <ul>
             <li>Fetch model from service</li>
-            <li>Bind model to scope</li>
-            <li>Template reads/writes model</li>
+            <li>Set model on $scope</li>
+            <li>Template reads/writes model from $scope</li>
             <li>Help functions for template, ex. $scope.submitForm(form) {...}</li>
-            <li>Never touches DOM!</li>
+            <li>Keep away from DOM!</li>
          </ul>
       </div>
    </section>
@@ -435,7 +435,7 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
                    &lt;/ul>
                    &lt;form ng-submit="addTeam(team)">
                       &lt;input ng-model="team.name" />
-                      &lt;button>Add&lt;/button>
+                      &lt;input type="submit" value="Add" />
                    &lt;/form>
                 &lt;/div>
             </pre>
@@ -485,6 +485,8 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
       <div>
          <h2>The connection...</h2>
          <img src="img/resource_and_http.png"/>
+         <br />
+         <a href="demos/controller-resource.html" target="_blank">AngularJS tool</a>
       </div>
    </section>
 
@@ -620,24 +622,24 @@ bekkApp.config(function ($httpProvider) {
 
    <section class="slide">
       <div>
-         <h2>DateFormatter directive</h2>
-			<pre class="brush: js">
-				// Example usage:  &lt;p class="DateFormatter" dato="{{myDate}}" />
-				// &lt;p class="DateFormatter" dato="{{myDate}}" format="'yyyy-dd-MM'"/>
-				bekkApp.directive('DateFormatter', function(DateUtilService) {
-					return {
-						restrict: 'C',
-						link: function($scope, el, attrs) {
-							var format = attrs.format ? attrs.format : 'd. MMMM yyyy';
+         <h2>Some directive examples</h2>
+         <pre class="brush: html">
+            &lt;cmsText key="frontpage.introduction">&lt;/cmsText>
 
-							attrs.$observe('dato', function(dato) {
-								el.text(DateUtilService.convertFormat(dato, format));
-							});
-						}
-					};
-				})
-				;
-			</pre>
+            &lt;cmsInfobox title="bekk.title" body="bekk.body">&lt;/cmsInfobox>
+
+            &lt;question type="radio" question="{{question}}">&lt;/question>
+
+            &lt;div scrollfix>&lt;/div>
+         </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Directive: Zippy</h2>
+         <p>From AngularJS <a href="http://docs.angularjs.org/guide/directive">documentation</a>.</p>
+			<a href="http://jsfiddle.net/9rQb4/" target="_blank">Fiddle</a>
       </div>
    </section>
 
@@ -673,6 +675,24 @@ bekkApp.config(function ($httpProvider) {
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>Routes</h2>
+         <pre class="brush: html">
+            &lt;div ng-app="bekkApp">
+               &lt;h2>Welcome to Fagdag!&lt;/h2>
+
+               &lt;!-- Partials inserted here: -->
+               &lt;div ng-view>&lt;/div>
+
+               &lt;div ng-controller="FooterCtrl">
+                  &lt;footer>{{ fancyFooter }}&lt;/footer>
+               &lt;/div>
+            &lt;/div>
+         </pre>
+
+      </div>
+   </section>
 
    <section class="slide">
       <div>
@@ -722,20 +742,6 @@ bekkApp.config(function ($httpProvider) {
       </div>
    </section>
 
-   <section class="slide">
-      <div>
-         <h2>Listen on route change events</h2>
-			<pre class="brush: js">
-				bekkApp.run(function (TrackingService, $rootScope) {
-				  $rootScope.$on(
-					'$routeChangeStart',
-					TrackingService.trackEvent
-				  );
-				})
-			</pre>
-      </div>
-   </section>
-
    <section class="slide" id="q">
       <div>
          <h2>Questions?</h2>
@@ -753,6 +759,20 @@ bekkApp.config(function ($httpProvider) {
       <div>
          <h2>Extra slides...</h2>
 
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Listen on route change events</h2>
+			<pre class="brush: js">
+				bekkApp.run(function (TrackingService, $rootScope) {
+				  $rootScope.$on(
+					'$routeChangeStart',
+					TrackingService.trackEvent
+				  );
+				})
+			</pre>
       </div>
    </section>
 
