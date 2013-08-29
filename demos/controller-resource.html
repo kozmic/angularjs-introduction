@@ -2,7 +2,7 @@
 <html lang="en-US" xmlns="http://www.w3.org/1999/html">
 <head>
    <meta charset="UTF-8">
-   <title>ng-submit</title>
+   <title>$resource</title>
    <script src="js/angular/angular.js"></script>
    <script src="js/angular/angular-resource.js"></script>
    <script type="text/javascript">
@@ -22,12 +22,15 @@
             $scope.team = {};
          }
 
-
          // DEMO code:
          window.TeamsService = TeamsService;
          window.teams = $scope.teams;
 
          //
+      });
+
+      bekkApp.config(function($httpProvider) {
+         $httpProvider.defaults.headers.common['Fagdag'] = 'BEKK';
       });
    </script>
 </head>

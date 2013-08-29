@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<title>AngularJS Workshop</title>
+	<title>Introduction to AngularJS</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=1024, user-scalable=no">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+<!--
+Legg inn animate eksempel etter ng-submit sliden?
+Burde ha noe om direktiver før Controller intro, da det er med i tegningen
+I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt på slidene?
+-->
+
 
     <!--
     Tool to load demo-code viewable on slide as well as loaded in iframe:
@@ -12,6 +18,8 @@
     <script type="text/javascript" src="js/jquery-1.4.3.min.js"></script>
     <script type="text/javascript" src="js/Class.create.js"></script>
     <script type="text/javascript" src="js/jquery-encoder-0.1.0.js"></script>
+
+   <script type="text/javascript" src="js/angularjs/angular.js"></script>
 
 	<!--
 		To apply styles to the certain slides
@@ -104,11 +112,10 @@
 
 	<section class="slide" id="First">
         <img src="img/AngularJS-large.png" class="center" alt="">
-		<h2>AngularJS Introduction</h2>
+		<h2>Introduction to AngularJS</h2>
 		<p>Ståle Pettersen (@kozmic)</p>
         <p>Aug 30th, 2013</p>
-        <p>Slides: <a href="http://kozmic.github.com/angularjs-introduction/">kozmic.github.com/angularjs-introduction/</a></p>
-        <p>Demos: <a href="https://github.com/kozmic/angularjs-introduction-demo">github.com/kozmic/angularjs-introduction-demo</a></p>
+        <p>Slides &amp; demos: <a href="http://kozmic.github.io/angularjs-introduction/">kozmic.github.io/angularjs-introduction/</a></p>
 	</section>
 
     <section class="slide">
@@ -191,7 +198,7 @@
          <h2>Directives</h2>
          <ul>
             <li>
-               <code>angular.module(name, ['dep1','dep2']);</code>
+               <code>angular.module('myMod', ['dep1','dep2']);</code>
             </li>
             <li>
                ng-app: Boostraps app with <code>bekkApp</code> module.
@@ -252,6 +259,25 @@
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>ng-class</h2>
+         <p>
+            ng-class / ng-class-even / ng-class-odd sets class based on model value
+         </p>
+
+            <pre class="brush: html" title="HTML">
+                Best team: &lt;input ng-model="team.name">
+                &lt;p ng-class="{good: isGood(team)}"
+                   ng-show="team.name">
+                    The best team is {{team.name}}
+                &lt;/p>
+            </pre>
+         <br />
+         <iframe class="demo" src="demos/input-ng-class.html" width="80%" height="20%"></iframe>
+      </div>
+   </section>
+
    <!-- Better example in a ng-repeat to limit "results" -->
     <!--section class="slide">
         <div>
@@ -273,18 +299,11 @@
          <h2>Controller</h2>
          <ul>
             <li>Fetch model from service</li>
-            <li>Bind model to scope</li>
-            <li>Template reads/writes model</li>
+            <li>Set model on $scope</li>
+            <li>Template reads/writes model from $scope</li>
             <li>Help functions for template, ex. $scope.submitForm(form) {...}</li>
-            <li>Never touches DOM!</li>
+            <li>Keep away from DOM!</li>
          </ul>
-      </div>
-   </section>
-
-   <section class="slide">
-      <div>
-         <h2>Controller</h2>
-         <img src="img/ngcontroller2.png"/>
       </div>
    </section>
 
@@ -319,6 +338,13 @@
 
    <section class="slide">
       <div>
+         <h2>Controller &amp; $scope</h2>
+         <img src="img/ngcontroller3.png"/>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
          <h2>Filter: orderBy</h2>
             <pre class="brush: html" title="HTML:">
               &lt;div ng-app="bekkApp">
@@ -350,25 +376,6 @@
                 &lt;/div>
             </pre>
          <iframe class="demo" src="demos/controller-filter.html"></iframe>
-      </div>
-   </section>
-
-   <section class="slide">
-      <div>
-         <h2>ng-class</h2>
-         <p>
-            ng-class / ng-class-even / ng-class-odd sets class based on model value
-         </p>
-
-            <pre class="brush: html" title="HTML">
-                Best team: &lt;input ng-model="team.name">
-                &lt;p ng-class="{good: isGood(team)}"
-                   ng-show="team.name">
-                    The best team is {{team.name}}
-                &lt;/p>
-            </pre>
-         <br />
-         <iframe class="demo" src="demos/input-ng-class.html" width="80%" height="20%"></iframe>
       </div>
    </section>
 
@@ -428,7 +435,7 @@
                    &lt;/ul>
                    &lt;form ng-submit="addTeam(team)">
                       &lt;input ng-model="team.name" />
-                      &lt;button>Add&lt;/button>
+                      &lt;input type="submit" value="Add" />
                    &lt;/form>
                 &lt;/div>
             </pre>
@@ -471,6 +478,47 @@
                 }
              });
          </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>The connection...</h2>
+         <img src="img/resource_and_http.png"/>
+         <br />
+         <a href="demos/controller-resource.html" target="_blank">AngularJS tool</a>
+      </div>
+   </section>
+
+
+   <section class="slide">
+      <div>
+         <h2>Generic interceptor</h2>
+			<pre class="brush: js">
+bekkApp.config(function ($httpProvider) {
+	var errorInterceptor = function ($q, $location) {
+
+		function success(response) {
+			return response;
+		}
+
+		function error(response) {
+			if (response.status < 200 || response.status >= 400) {
+				$location.path("/error");
+				return $q.reject(response);
+			}
+		}
+
+		return function (promise) {
+			return promise.then(success, error);
+		};
+
+	};
+
+	$httpProvider.responseInterceptors.push(errorInterceptor);
+});
+
+			</pre>
       </div>
    </section>
 
@@ -574,24 +622,24 @@
 
    <section class="slide">
       <div>
-         <h2>DateFormatter directive</h2>
-			<pre class="brush: js">
-				// Example usage:  &lt;p class="DateFormatter" dato="{{myDate}}" />
-				// &lt;p class="DateFormatter" dato="{{myDate}}" format="'yyyy-dd-MM'"/>
-				bekkApp.directive('DateFormatter', function(DateUtilService) {
-					return {
-						restrict: 'C',
-						link: function($scope, el, attrs) {
-							var format = attrs.format ? attrs.format : 'd. MMMM yyyy';
+         <h2>Some directive examples</h2>
+         <pre class="brush: html">
+            &lt;cmsText key="frontpage.introduction">&lt;/cmsText>
 
-							attrs.$observe('dato', function(dato) {
-								el.text(DateUtilService.convertFormat(dato, format));
-							});
-						}
-					};
-				})
-				;
-			</pre>
+            &lt;cmsInfobox title="bekk.title" body="bekk.body">&lt;/cmsInfobox>
+
+            &lt;question type="radio" question="{{question}}">&lt;/question>
+
+            &lt;div scrollfix>&lt;/div>
+         </pre>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Directive: Zippy</h2>
+         <p>From AngularJS <a href="http://docs.angularjs.org/guide/directive">documentation</a>.</p>
+			<a href="http://jsfiddle.net/9rQb4/" target="_blank">Fiddle</a>
       </div>
    </section>
 
@@ -627,6 +675,24 @@
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>Routes</h2>
+         <pre class="brush: html">
+            &lt;div ng-app="bekkApp">
+               &lt;h2>Welcome to Fagdag!&lt;/h2>
+
+               &lt;!-- Partials inserted here: -->
+               &lt;div ng-view>&lt;/div>
+
+               &lt;div ng-controller="FooterCtrl">
+                  &lt;footer>{{ fancyFooter }}&lt;/footer>
+               &lt;/div>
+            &lt;/div>
+         </pre>
+
+      </div>
+   </section>
 
    <section class="slide">
       <div>
@@ -676,20 +742,6 @@
       </div>
    </section>
 
-   <section class="slide">
-      <div>
-         <h2>Listen on route change events</h2>
-			<pre class="brush: js">
-				bekkApp.run(function (TrackingService, $rootScope) {
-				  $rootScope.$on(
-					'$routeChangeStart',
-					TrackingService.trackEvent
-				  );
-				})
-			</pre>
-      </div>
-   </section>
-
    <section class="slide" id="q">
       <div>
          <h2>Questions?</h2>
@@ -705,39 +757,22 @@
 
    <section class="slide">
       <div>
-         <h2>Generic interceptor</h2>
-			<pre class="brush: js">
-bekkApp.config(function ($httpProvider) {
-	var errorInterceptor = function ($q, $location) {
+         <h2>Extra slides...</h2>
 
-		function success(response) {
-			return response;
-		}
-
-		function error(response) {
-			if (response.status < 200 || response.status >= 400) {
-				$location.path("/error");
-				return $q.reject(response);
-			}
-		}
-
-		return function (promise) {
-			return promise.then(success, error);
-		};
-
-	};
-
-	$httpProvider.responseInterceptors.push(errorInterceptor);
-});
-
-			</pre>
       </div>
    </section>
 
    <section class="slide">
       <div>
-         <h2>Extra slides...</h2>
-
+         <h2>Listen on route change events</h2>
+			<pre class="brush: js">
+				bekkApp.run(function (TrackingService, $rootScope) {
+				  $rootScope.$on(
+					'$routeChangeStart',
+					TrackingService.trackEvent
+				  );
+				})
+			</pre>
       </div>
    </section>
 
@@ -1294,7 +1329,8 @@ bekkApp.config(function ($httpProvider) {
 			<pre class="brush: js">
 			angular.module('csrfTokenSetup', [])
 				.config(function ($httpProvider) {
-					$httpProvider.defaults.headers.post['X-Requested-By'] = $('[name=csrf-token]').attr('content');
+					$httpProvider.defaults.headers.post['X-Requested-By'] =
+                         $('[name=csrf-token]').attr('content');
 				});
 			</pre>
 		</div>
@@ -1305,15 +1341,15 @@ bekkApp.config(function ($httpProvider) {
 			<h2>Dev/Mock/Test $http/$resource</h2>
 			<p>Mock responses for development with mocked backeds (or testing)</p>
 			<pre class="brush: js" title="mockServices.js">
-			var weatherAppDev = angular.module('weatherAppDev', ['weatherApp', 'ngMockE2E']);
-			weatherAppDev.run(function ($httpBackend) {
+			var bekkAppDev=angular.module('bekkAppDev', ['bekkApp', 'ngMockE2E']);
+			bekkAppDev.run(function ($httpBackend) {
 
-				$httpBackend.whenGET('/weather\/\w*$').respond(window.weatherResult_Oslo);
-				$httpBackend.whenPOST('/weather$').respond(function (method, url, data, headers) {
-					if (angular.fromJson(data).weather.wind === 100) {
+				$httpBackend.whenGET('/teams\/\w*$').respond(window.teamsResult);
+				$httpBackend.whenPOST('/teams$').respond(function (method, url, data, headers) {
+					if (angular.fromJson(data).name === 'RBK') {
 						return ['500', '', ''];
 					} else {
-						return ['200', window.weatherResult_Oslo, ''];
+						return ['200', window.teamsResult, ''];
 					}
 				});
 
@@ -1324,7 +1360,7 @@ bekkApp.config(function ($httpProvider) {
 			</pre>
 			<pre class="brush: html" title="Switch to mock:">
 				&lt;script src="mocks/mockServices.js">&lt;/script>
-				&lt;div ng-app="weatherAppDev"/> &lt;-- 'weatherApp' for no mocks -->
+				&lt;div ng-app="bekkAppDev"/> &lt;-- 'bekkApp' for no mocks -->
 			</pre>
 		</div>
 	</section>
