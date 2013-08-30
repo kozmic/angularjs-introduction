@@ -118,6 +118,27 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
         <p>Slides &amp; demos: <a href="http://kozmic.github.io/angularjs-introduction/">kozmic.github.io/angularjs-introduction/</a></p>
 	</section>
 
+
+    <section class="slide">
+        <div>
+            <h2>AngularJS in 20 seconds</h2>
+            <ul>
+               <li>
+                  Reusable modules and dependency injection
+               </li>
+               <li>
+                  Templates, binding, routing, validation, ajax, animation, caching, exception handling, web history, security, testable++
+               </li>
+               <!--li>
+                  "Spring Core &amp; Spring Web" for the Javascript world
+               </li-->
+               <li>
+                  Really shines in multiple large projects
+               </li>
+            </ul>
+        </div>
+    </section>
+
    <section class="slide">
       <div>
          <h2>Today: Code!</h2>
@@ -125,35 +146,14 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
       </div>
    </section>
 
-
-    <section class="slide">
-        <div>
-            <h2>AngularJS in 20 seconds</h2>
-            <ul>
-               <li>
-                  Reusable components (directives) and dependency injection
-               </li>
-               <li>
-                  Templates, routing, validation, ajax, animation, caching, exception handling, web history, security, testable++
-               </li>
-               <!--li>
-                  "Spring Core &amp; Spring Web" for the Javascript world
-               </li-->
-               <li>
-                  Biggest gain in multiple large projects
-               </li>
-            </ul>
-        </div>
-    </section>
-
     <section class="slide cover">
         <img src="img/feelings_about_angularjs_over_time.png"/>
         <p class="source"><a href="http://www.bennadel.com/blog/2439-My-Experience-With-AngularJS-The-Super-heroic-JavaScript-MVW-Framework.htm">Source: Ben Nadel</a></p>
     </section>
 
-    <section class="slide shout"><div>
+    <!--<section class="slide shout"><div>
         <h2>AngularJS can be a drama queen!</h2>
-    </div></section>
+    </div></section>-->
 
    <section class="slide">
       <div>
@@ -186,7 +186,7 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
                 &lt;script src="js/angular.js">&lt;/script>
                 &lt;div ng-app>
                     Best team: &lt;input ng-model=”team.name”>
-                    &lt;h2>Best team is {{team.name}}&lt;/h2>
+                    &lt;h2>Best team is {{ team.name }}&lt;/h2>
                 &lt;/div>
             </pre>
             <br />
@@ -196,7 +196,7 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
 
    <section class="slide">
       <div>
-         <h2>Directives</h2>
+         <h2>Create a module and bootstrap</h2>
          <ul>
             <li>
                <code>angular.module('myMod', ['dep1','dep2']);</code>
@@ -301,7 +301,8 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
          <ul>
             <li>Fetch model from service</li>
             <li>Set model on $scope</li>
-            <li>Template reads/writes model from $scope</li>
+            <li>View reads/writes model from $scope</li>
+            <li>View &lt;-&gt; $scope &lt;-&gt; controller</li>
             <li>Help functions for template, ex. $scope.submitForm(form) {...}</li>
             <li>Not allowed to modify DOM!</li>
          </ul>
@@ -420,10 +421,16 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
       </div>
    </section>
 
+   <section class="slide">
+      <div>
+         <h2>Controller &amp; $scope</h2>
+         <img src="img/ngcontroller4.png"/>
+      </div>
+   </section>
 
    <section class="slide">
       <div>
-         <h2>Filter: filter</h2>
+         <h2>Filters: orderBy &amp; filter</h2>
             <pre class="brush: html" title="HTML:">
                 &lt;div ng-app="bekkApp">
                   &lt;ul ng-controller="TeamsCtrl">
@@ -438,13 +445,6 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
                $scope.teams = [{name: 'Stabæk'}, {name: 'RBK'}, {name: 'Odd'}];
             </pre>
          <iframe class="demo" src="demos/controller-filter.html"></iframe>
-      </div>
-   </section>
-
-   <section class="slide">
-      <div>
-         <h2>Controller &amp; $scope</h2>
-         <img src="img/ngcontroller4.png"/>
       </div>
    </section>
 
@@ -539,10 +539,10 @@ bekkApp.config(function ($httpProvider) {
             <li>min</li>
             <li>max</li>
             <li>ng-pattern</li>
+            <li>... and of course build your own (directive)</li>
          </ul>
          <p>Properties: $error, $prestine, $dirty, $valid, $invalid</p>
          <p>CSS class: ng-valid, ng-pristine, ng-dirty, ng-invalid, ng-invalid-required</p>
-         <p>... and of course build your own (directive)</p>
       </div>
    </section>
 
@@ -567,7 +567,7 @@ bekkApp.config(function ($httpProvider) {
 
    <section class="slide">
       <div>
-         <h2>Custom directives</h2>
+         <h2>Directives</h2>
          <ul>
             <li>
                Encapsulate functionality
@@ -582,9 +582,22 @@ bekkApp.config(function ($httpProvider) {
                Shared between applications (<a href="http://ngmodules.org" target="_blank">ngmodules.org</a>)
             </li>
             <li>
-               Examples: focus in input field, dynamically set tabindex, menu system, listen to DOM events, google map, gmail inbox
+               Example usage: focus in input field, dynamically set tabindex, menu system, google map, gmail inbox
             </li>
          </ul>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Using directives</h2>
+         <ul>
+            <li><code>E</code> - Element name: <code>&lt;my-directive&gt;&lt;/my-directive&gt;</code></li>
+            <li><code>A</code> - Attribute: <code>&lt;div my-directive="exp"&gt;&lt;/div&gt;</code></li>
+            <li><code>C</code> - Class: <code>&lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</code></li>
+            <li><code>M</code> - Comment: <code>&lt;!-- directive: my-directive exp --&gt;</code></li>
+         </ul>
+
       </div>
    </section>
 
@@ -610,19 +623,6 @@ bekkApp.config(function ($httpProvider) {
               }
             });
             </pre>
-      </div>
-   </section>
-
-   <section class="slide">
-      <div>
-         <h2>Using directives</h2>
-         <ul>
-            <li><code>E</code> - Element name: <code>&lt;my-directive&gt;&lt;/my-directive&gt;</code></li>
-            <li><code>A</code> - Attribute: <code>&lt;div my-directive="exp"&gt;&lt;/div&gt;</code></li>
-            <li><code>C</code> - Class: <code>&lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</code></li>
-            <li><code>M</code> - Comment: <code>&lt;!-- directive: my-directive exp --&gt;</code></li>
-         </ul>
-
       </div>
    </section>
 
