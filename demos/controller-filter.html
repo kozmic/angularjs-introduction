@@ -13,6 +13,11 @@
                 { name: 'RBK' },
                 { name: 'Odd' }
             ];
+
+           $scope.addTeam = function () {
+              $scope.teams.push($scope.team);   
+              $scope.team = {};
+           };
           });
     </script>
 </head>
@@ -26,6 +31,12 @@
                {{team.name}}
            </li>
        </ul>
+      <form ng-submit="addTeam()">
+         <input ng-model="team.name"/>
+         <input type="submit" value="Add"/>
+      </form>
+
+
    </div>
 </div>
 

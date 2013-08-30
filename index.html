@@ -158,7 +158,7 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
    <section class="slide">
       <div>
          <h2>Dislaimer!</h2>
-         <p>AngularJS belive in declarative UI:</p>
+         <p>AngularJS -&gt; declarative in view:</p>
          <pre class="brush: html">
             &lt;google-map lat="59.2" long="10.1">&lt;/google-map>
             &lt;google-map lat="71.1" long="71.1">&lt;/google-map>
@@ -337,13 +337,6 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
         </div>
     </section>
 
-   <section class="slide">
-      <div>
-         <h2>Controller &amp; $scope</h2>
-         <img src="img/ngcontroller4.png"/>
-      </div>
-   </section>
-
 <!--   <section class="slide">
       <div>
          <h2>Filter: orderBy</h2>
@@ -362,23 +355,6 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
             <iframe class="demo" src="demos/controller-orderby.html"></iframe>
       </div>
    </section>-->
-
-   <section class="slide">
-      <div>
-         <h2>Filter: filter</h2>
-            <pre class="brush: html" title="HTML:">
-                &lt;div ng-app="bekkApp">
-                  &lt;ul ng-controller="TeamsCtrl">
-                    Filter: &lt;input ng-model="search"/>
-                    &lt;li ng-repeat="team in teams|orderBy:'name' | filter:search">
-                      {{team.name}}
-                    &lt;/li>
-                  &lt;/ul>
-                &lt;/div>
-            </pre>
-         <iframe class="demo" src="demos/controller-filter.html"></iframe>
-      </div>
-   </section>
 
     <section class="slide">
         <div>
@@ -426,7 +402,7 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
 
    <section class="slide">
       <div>
-         <h2>ng-submit</h2>
+         <h2>Form with ng-submit</h2>
             <pre class="brush: html" title="HTML:">
                 &lt;div ng-app="bekkApp" ng-controller="TeamsCtrl">
                    &lt;ul>
@@ -443,6 +419,35 @@ I controller eksempelet er det ingen "teams" som i figuren... flytte litt rundt 
          <iframe class="demo" src="demos/controller-ng-submit.html"></iframe>
       </div>
    </section>
+
+
+   <section class="slide">
+      <div>
+         <h2>Filter: filter</h2>
+            <pre class="brush: html" title="HTML:">
+                &lt;div ng-app="bekkApp">
+                  &lt;ul ng-controller="TeamsCtrl">
+                    Filter: &lt;input ng-model="search"/>
+                    &lt;li ng-repeat="team in teams|orderBy:'name' | filter:search">
+                      {{team.name}}
+                    &lt;/li>
+                  &lt;/ul>
+                &lt;/div>
+            </pre>
+            <pre class="brush: js" title="How teams are defined in controller:">
+               $scope.teams = [{name: 'Stabæk'}, {name: 'RBK'}, {name: 'Odd'}];
+            </pre>
+         <iframe class="demo" src="demos/controller-filter.html"></iframe>
+      </div>
+   </section>
+
+   <section class="slide">
+      <div>
+         <h2>Controller &amp; $scope</h2>
+         <img src="img/ngcontroller4.png"/>
+      </div>
+   </section>
+
 
    <section class="slide">
       <div>
@@ -545,7 +550,7 @@ bekkApp.config(function ($httpProvider) {
       <div>
          <h2>Validation: required</h2>
          <pre class="brush: html" title="HTML:">
-            &lt;form name="myForm" ng-submit="addTeam(myForm, team)" novalidate>
+            &lt;form name="myForm" ng-submit="addTeam(team)" novalidate>
 
                &lt;input name="name" required ng-model="team.name"/>
                &lt;input type="submit" value="Add"/>
@@ -746,6 +751,13 @@ bekkApp.config(function ($httpProvider) {
    <section class="slide" id="q">
       <div>
          <h2>Questions?</h2>
+         <br />
+         <br />
+         <br />
+         <br />
+         <br />
+         <br />
+         <p>Slides &amp; demos: <a href="http://kozmic.github.io/angularjs-introduction/">kozmic.github.io/angularjs-introduction/</a></p>
       </div>
    </section>
 
